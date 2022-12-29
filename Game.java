@@ -24,7 +24,7 @@ public class Game {
           System.out.println(String.format("%s Turn", player.toString()));
           boolean inputIsValid = false;
           while(!inputIsValid) {
-              System.out.print("Please enter the column (1 - 6) to place your %s token: ");
+              System.out.print("Please enter the column (1 - 6) to place your token: ");
               int column = scanner.nextInt();
               if (column >= 1 && column <= 6) {
                   inputIsValid = true;

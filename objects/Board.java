@@ -31,8 +31,7 @@ public class Board {
       for (int j = 0; j < this.rows; j++) {
         if (this.hasHorizontalFour(j, i, player.getColor()) ||
             this.hasVerticalFour(j, i, player.getColor()) ||
-            this.hasPositiveDiagonalFour(j, i, player.getColor()) ||
-            this.hasNegativeDiagonalFour(j, i, player.getColor())) {
+            this.hasDiagonalFour(j, i, player.getColor())) {
           return true;    
         }
       }
@@ -47,11 +46,14 @@ public class Board {
         if (grid.get(i).get(row).toString().equals(color.toString())) {
           consecutiveCount += 1;
         } else {
-          consecutiveCount = 0;
+          if (consecutiveCount >= 4) {
+            return true;
+          } else {
+            consecutiveCount = 0;
+          }
         }
       }
     }
-
     return consecutiveCount >= 4;
   }
   
@@ -69,6 +71,11 @@ public class Board {
     }
     return consecutiveCount >= 4;
   } 
+
+  private boolean hasDiagonalFour(int row, int column, Color color) {
+    return hasPositiveDiagonalFour(row, column, color) ||
+           hasNegativeDiagonalFour(row, column, color);
+  }
 
   private boolean hasPositiveDiagonalFour(int row, int column, Color color) {
     int consecutiveCount = 0;
@@ -129,12 +136,24 @@ public class Board {
         output += row;
     }
     return output;
-}
-  
+  }
+
+  private String columnDisplay() {
+    String output = "";
+    if (grid.isEmpty()) {
+      return "";
+    }
+    for (int i = 0; i < rows; i++) {
+      output += String.format("%-8d", i+1);
+    }
+    return output;
+  }
+
   @Override
   public String toString() {
     return String.format(
-      "Game Board:\n%s",
+      "Game Board:\n%s\n%s",
+      this.columnDisplay(),
       this.boardStatus()
     );
   }
